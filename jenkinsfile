@@ -16,6 +16,11 @@ pipeline {
                     sh "docker push localhost:5000/calculatorui"
                }
           }
+          stage("Image Vul Scan") {
+                steps {
+                    aquaMicroscanner imageName: 'localhost:5000/calculatorui', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'html'
+                }
+          }
           stage("Remove container") {
                steps {
                     sh "docker ps -q --filter 'name=calculatorui' | grep -q . && docker rm -fv calculatorui || true"
