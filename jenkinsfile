@@ -1,8 +1,5 @@
 pipeline {
      agent any
-     triggers {
-          pollSCM('* * * * *')
-     }
      stages {
           stage("Compile") {
                steps {
@@ -27,6 +24,12 @@ pipeline {
           stage("Launch staging") {
                steps {
                     sh "docker run -d --restart=always -p 9191:8080 --name calculatorui localhost:5000/calculatorui"
+               }
+          }
+          stage("Acceptance test") {
+               steps {
+                    sleep 10
+                    sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
                }
           }
      }
