@@ -19,26 +19,15 @@ pipeline {
                     sh "docker push localhost:5000/calculatorui"
                }
           }
-/*          stage("Image Vul Scan") {
-                steps {
-                    aquaMicroscanner imageName: 'localhost:5000/calculator', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'html'
-                }
-          }
           stage("Remove container") {
                steps {
-                    sh "docker ps -q --filter 'name=calculator' | grep -q . && docker rm -fv calculator || true"
+                    sh "docker ps -q --filter 'name=calculatorui' | grep -q . && docker rm -fv calculatorui || true"
                }
           }
           stage("Launch staging") {
                steps {
-                    sh "docker run -d --restart=always -p 9090:8080 --name calculator localhost:5000/calculator"
+                    sh "docker run -d --restart=always -p 9191:8080 --name calculatorui localhost:5000/calculatorui"
                }
           }
-          stage("Acceptance test") {
-               steps {
-                    sleep 10
-                    sh "./mvnw integration-test -Dcalculator.url=http://localhost:9090"
-               }
-          }*/
      }
 }
